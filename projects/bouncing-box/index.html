@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Bouncing Box</title>
+	<script src="jquery.min.js"></script>
+
+<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+
+	<!-- BEGIN CSS -->
+	<style>
+		/* TODO 1 */
+		[class="box"] {
+			display: block;
+			position: absolute;
+			width: 70px;
+			height: 70px;
+			top: 200px;
+			left: 200px;
+			background-color: teal;
+			font-size: 300%;
+			text-align: center;
+		}
+	</style>
+
+</head>
+<body class="board">
+	<!-- HTML for the box -->
+	<div class="box">?</div>
+
+	<!-- BEGIN JAVASCRIPT -->
+	<script>
+		(function(){
+			'use strict'
+			/* global &*/
+
+			// Variable declarations
+			var box;
+			var boardWidth;
+			var boardHeight;
+			var update;
+			var handleBoxClick;
+
+			// jQuery stuff setup for you
+			box = $('.box');
+			boardWidth = $('.board').width();
+			boardHeight = $(".board").height();
+
+			// TODO 2
+			var xposition = 0;
+			var yposition = 0;
+			var points = 0;
+			var speed = 10;
+			var xdirection = 1;
+			var ydirection = 1;
+			var color1 = 'teal';
+			var color2 = 'maroon';
+			var color3 = 'blue';
+			
+			
+			box.css('left', xposition); // changes the 'left' css property of the box to value of var position
+			box.css('top', yposition);
+			box.text(points);
+			
+			function update() {
+				// TODO 3 / 6 / 7 / 8
+				xposition = xposition + (speed * xdirection);
+				if(xposition > (boardWidth - 60)){
+					xdirection = -1;
+				}
+				if(xposition < 0){
+					xdirection = 1;
+				}
+				box.css('left', xposition);
+				
+				yposition = yposition + (speed * ydirection);
+				if(yposition > (boardHeight + 610)){
+					ydirection = -1;
+				}
+				if(yposition < 0){
+					ydirection = 1;
+				}
+				box.css('top', yposition)
+			}
+			
+			function handleBoxClick() {
+				// TODO 4 / 5
+				speed = speed + 3;
+				xposition = 0;
+				yposition = 0;
+				points = points + 1;
+				box.text(points);
+				changeBoxColor(points);
+			}
+
+			function changeBoxColor(points){
+				if(points % 3 === 0){
+					box.css('background-color', color3)
+				} else if(points % 2 === 0){
+					box.css('background-color', color1);
+				} else if(points % 2 === 1){ box.css('background-color', color2); }
+				else{}
+			}
+			
+			//this calls update every 50 milliseconds
+			setInterval(update, 50);
+			// this calls the handle handleBoxClick function every time the box is clicked on
+			box.on('click', handleBoxClick);
+		})();
+	</script>
+</body>
+</html>
